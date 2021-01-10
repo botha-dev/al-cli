@@ -1,9 +1,7 @@
 import chalk from 'chalk';
 import fs from 'fs';
-import ncp from 'ncp';
 import path from 'path';
 import { promisify } from 'util';
-import { option } from 'yargs';
 
 const access = promisify(fs.access);
 const fsPromise = require('fs').promises;
@@ -32,7 +30,7 @@ async function handleTemplateFile(options, file) {
 
     var sourceFile = path.join(options.templateDirectory, file);
     var destFile = path.join(options.targetDirectory, handleFileName(options, file));
-        
+
     try {
 
         await fsPromise.copyFile(

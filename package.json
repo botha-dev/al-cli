@@ -1,11 +1,12 @@
 {
   "name": "@bothadev/al-cli",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "A CLI for easily creating AL files from templates.",
   "main": "src/index.js",
   "bin": {
     "@bothadev/al-cli": "bin/al-cli",
-    "al-cli": "bin/al-cli"
+    "al-cli": "bin/al-cli",
+    "al": "bin/al-cli"
   },
   "publishConfig": {
     "access": "public"
@@ -17,9 +18,13 @@
     "cli",
     "al-cli"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/botha-dev/al-cli.git"
+  },
   "author": "Botha Development",
   "license": "MIT",
-  "dependencies": {    
+  "dependencies": {
     "chalk": "^4.1.0",
     "esm": "^3.2.25",
     "fs-extra": "^9.0.1",
