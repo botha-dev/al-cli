@@ -1,11 +1,11 @@
 {
-  "name": "@bothadev/test-cli",
+  "name": "@bothadev/al-cli",
   "version": "1.0.0",
-  "description": "A Test run CLI",
+  "description": "A CLI for easily creating AL files from templates.",
   "main": "src/index.js",
   "bin": {
-    "@bothadev/test-cli": "bin/test-cli",
-    "test-cli": "bin/test-cli"
+    "@bothadev/al-cli": "bin/al-cli",
+    "al-cli": "bin/al-cli"
   },
   "publishConfig": {
     "access": "public"
@@ -15,9 +15,9 @@
   },
   "keywords": [
     "cli",
-    "test-cli"
+    "al-cli"
   ],
-  "author": "Jaco Botha",
+  "author": "Botha Development",
   "license": "MIT",
   "dependencies": {    
     "chalk": "^4.1.0",
