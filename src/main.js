@@ -6,9 +6,9 @@ import { promisify } from 'util';
 import { option } from 'yargs';
 
 const access = promisify(fs.access);
-const copy = promisify(ncp);
 const fsPromise = require('fs').promises;
-const fs2 = require('fs');
+const fsExtra = require('fs-extra');
+
 const capitalize = (s) => {
     if (typeof s !== 'string') return ''
     return s.charAt(0).toUpperCase() + s.slice(1)
@@ -31,9 +31,10 @@ async function copyTemplateFiles(options) {
 async function handleTemplateFile(options, file) {
 
     var sourceFile = path.join(options.templateDirectory, file);
-    var destFile = path.join(options.targetDirectory, handleFileName(options, file))
-    //console.log(sourceFile);
+    var destFile = path.join(options.targetDirectory, handleFileName(options, file));
+        
     try {
+
         await fsPromise.copyFile(
             sourceFile,
             destFile,
@@ -45,26 +46,20 @@ async function handleTemplateFile(options, file) {
         await fsPromise.readFile(destFile)
             .then(data => {
                 var newData = data.toString().replace(/<id>/gi, options.id);
-                newData = newData.toString().replace(/<name>/gi, '"' + options.name + '"');
-                newData = newData.toString().replace(/<extends>/gi, '"' + options.extends + '"');
-                
-
+                newData = newData.toString().replace(/<name>/gi, options.name);
+                newData = newData.toString().replace(/<extends>/gi, options.extends);
                 fsPromise.writeFile(destFile, newData);
             })
- 
+
     } catch (error) {
-        //console.error('%s Invalid template name', chalk.red.bold('ERROR'));
         console.error('%s', chalk.red.bold(error));
     }
 
 }
 
-
-
 function handleFileName(options, file) {
     var tempName = options.name;
-    var tempNameSplit = tempName.split(' ');
-    console.log(tempNameSplit);
+    var tempNameSplit = tempName.split(' ');    
     var fileName = '';
 
     if (tempNameSplit.length > 1) {
@@ -81,10 +76,24 @@ function handleFileName(options, file) {
 }
 
 export async function createObject(options) {
+
+    var folder = "";
+
+    var slashPos = options.name.indexOf("/");
+
+    if (slashPos > -1) {
+        folder = options.name.substr(0, slashPos);
+        options.name = options.name.substr(slashPos + 1);
+    }
+
     options = {
         ...options,
-        targetDirectory: options.targetDirectory || process.cwd(),
+        targetDirectory: options.targetDirectory || path.join(process.cwd(), folder),
     };
+    
+    fsExtra.ensureDir(options.targetDirectory, function (err) {
+        console.log(err) // => null       
+    })
 
     const currentFileUrl = import.meta.url;
 
@@ -108,9 +117,6 @@ export async function createObject(options) {
 
     console.log('creating template files');
     await copyTemplateFiles(options);
-
-    //console.log('creating template files');
-    //await copyTemplateFiles(options);
 
     console.log('%s Object created.', chalk.green.bold('DONE'));
     return true;

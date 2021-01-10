@@ -1,4 +1,4 @@
-table <id> <name>
+table <id> "<name>"
 {
     DataClassification = ToBeClassified;
 

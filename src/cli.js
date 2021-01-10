@@ -26,7 +26,7 @@ export async function cli(args)
         },
         extends: {
             alias: 'e',             
-            description: 'Object Name to extend.'
+            description: 'Object Name to extend.',
 
         },
     }).argv;
